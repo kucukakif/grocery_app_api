@@ -1,0 +1,23 @@
+﻿using GroceryAppSql.Entities;
+using GroceryAppSql.WebapiServices.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+
+namespace GroceryAppSql.WebapiServices.Filters
+{
+    public class CartExceptionAttribute : ExceptionFilterAttribute
+    {
+        public override void OnException(ExceptionContext context)
+        {
+            ServiceResponse<Cart> response = new ServiceResponse<Cart>
+            {
+                HasError = true,
+
+            };
+            response.Errors.Add("Bir hata oluştu: " + context.Exception.Message);
+
+            context.Result = new BadRequestObjectResult(response);
+
+        }
+    }
+}
